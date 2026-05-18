@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>王小明 • AI 工程師 Portfolio</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-top: #081228;
+      --bg-bottom: #17042e;
+      --glass: rgba(255, 255, 255, 0.16);
+      --glass-strong: rgba(255, 255, 255, 0.22);
+      --border: rgba(255, 255, 255, 0.18);
+      --text: #f5f7ff;
+      --muted: rgba(245, 247, 255, 0.72);
+      --accent: #8d8cff;
+      --accent-soft: #d3ceff;
+      --shadow: 0 30px 80px rgba(7, 6, 20, 0.24);
+      --radius: 28px;
+      --radius-sm: 20px;
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, rgba(129, 107, 255, 0.3), transparent 25%),
+        radial-gradient(circle at 20% 15%, rgba(0, 191, 255, 0.18), transparent 18%),
+        radial-gradient(circle at bottom right, rgba(255, 129, 214, 0.18), transparent 20%),
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.08), transparent 22%),
+        radial-gradient(circle at 80% 75%, rgba(255, 159, 251, 0.08), transparent 18%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-shell {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 110px 24px 64px;
+    }
+
+    .toc {
+      position: sticky;
+      top: 18px;
+      z-index: 5;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 12px 16px;
+      margin-bottom: 28px;
+      background: rgba(10, 15, 40, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 18px 40px rgba(5, 9, 25, 0.24);
+    }
+
+    .toc a {
+      flex: 0 0 auto;
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.92rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .toc a:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--text);
+      font-size: clamp(1rem, 1vw + 0.4rem, 1.05rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .glass-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 40px 110px rgba(7, 6, 20, 0.32);
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 32px;
+    }
+
+    .hero-meta {
+      display: grid;
+      gap: 18px;
+      max-width: 720px;
+    }
+
+    .avatar {
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.65), rgba(176, 129, 255, 0.35));
+      display: grid;
+      place-items: center;
+      font-size: 2.4rem;
+      color: #221737;
+      font-weight: 800;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2), 0 18px 40px rgba(17, 21, 48, 0.26);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      line-height: 0.95;
+    }
+
+    .hero p.lead {
+      margin: 0;
+      max-width: 50ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .detail-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .about-body {
+      display: grid;
+      gap: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .pill-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .info-pill {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .skills-grid,
+    .projects-grid,
+    .awards-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .skill-group {
+      display: grid;
+      gap: 14px;
+      padding: 24px;
+      border-radius: var(--radius-sm);
+      background: rgba(16, 22, 46, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .skill-group h3 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-soft);
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-tags span {
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.94rem;
+      white-space: nowrap;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 26px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(141, 140, 255, 0.9), rgba(255, 255, 255, 0.1));
+      border-radius: 999px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 22px 22px 22px 24px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      backdrop-filter: blur(18px);
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -34px;
+      top: 26px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #ff8cd6);
+      box-shadow: 0 0 18px rgba(141, 140, 255, 0.7);
+      border: 3px solid rgba(10, 13, 34, 0.85);
+    }
+
+    .timeline-item h4 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+    }
+
+    .timeline-item .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    .timeline-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .timeline-item ul {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .timeline-item ul li {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .timeline-item ul li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      backdrop-filter: blur(18px);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 70px rgba(7, 6, 20, 0.2);
+    }
+
+    .award-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      color: var(--text);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .card h3,
+    .card h4 {
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .card .meta {
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .contact-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 20px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.22s ease, background 0.22s ease;
+    }
+
+    .contact-button:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      color: rgba(245, 247, 255, 0.5);
+      font-size: 0.92rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        grid-template-columns: auto 1fr;
+        align-items: center;
+      }
+
+      .hero-meta {
+        padding-left: 12px;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .projects-grid,
+      .awards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .contact-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero {
+        gap: 32px;
+      }
+
+      .detail-grid {
+        gap: 32px;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .projects-grid,
+      .awards-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-shell {
+        padding: 90px 16px 40px;
+      }
+
+      .hero {
+        padding: 24px;
+      }
+
+      .pill-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        padding: 12px 10px;
+      }
+
+      .toc a {
+        padding: 10px 14px;
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <nav class="toc" aria-label="頁面導覽">
+      <a href="#about">關於</a>
+      <a href="#skills">技能</a>
+      <a href="#education">學歷</a>
+      <a href="#experience">經歷</a>
+      <a href="#awards">獎項</a>
+      <a href="#projects">作品</a>
+      <a href="#contact">聯絡</a>
+    </nav>
+
+    <section class="section glass-card hero">
+      <div class="avatar">王</div>
+      <div class="hero-meta">
+        <p class="section-title">Hero</p>
+        <h1>王小明</h1>
+        <p class="lead">AI 工程師候選人，熱衷將 FinTech 與顧問服務轉化為更聰明的商業決策介面。</p>
+        <div class="tag-list">
+          <span class="tag">AI 工程師</span>
+          <span class="tag">FinTech</span>
+          <span class="tag">顧問業</span>
+          <span class="tag">科技業</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <p class="section-title">About</p>
+      <div class="glass-card detail-grid">
+        <div class="about-body">
+          <p>我是一位就讀中原大學資訊管理學系的學生，喜歡把 AI 概念轉成能實際運作的產品。從資料分析到使用者流程，我喜歡用邏輯與美感一起解題。</p>
+          <p>我相信好的技術不是炫耀，而是讓團隊更快找到答案。我希望加入重視 AI 協作、擁抱跨領域合作的產品團隊。</p>
+        </div>
+        <div class="pill-grid">
+          <div class="info-pill">求職方向：AI 工程師 / FinTech / 顧問業</div>
+          <div class="info-pill">所在地：台灣 • 桃園</div>
+          <div class="info-pill">語言：中文（母語）、英文（TOEIC 850）</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <p class="section-title">Skills</p>
+      <div class="skills-grid">
+        <div class="skill-group glass-card">
+          <h3>💻 程式</h3>
+          <div class="skill-tags">
+            <span>Swift</span>
+            <span>Python</span>
+            <span>C</span>
+            <span>SQL</span>
+            <span>Java</span>
+          </div>
+        </div>
+        <div class="skill-group glass-card">
+          <h3>🤖 AI 協作工具</h3>
+          <div class="skill-tags">
+            <span>ChatGPT</span>
+            <span>Gemini</span>
+            <span>GitHub Copilot</span>
+            <span>AI spec driven coding</span>
+          </div>
+        </div>
+        <div class="skill-group glass-card">
+          <h3>📊 專案管理</h3>
+          <div class="skill-tags">
+            <span>GitHub 專案</span>
+            <span>版本控制</span>
+            <span>敏捷協作</span>
+            <span>專案流程設計</span>
+          </div>
+        </div>
+        <div class="skill-group glass-card">
+          <h3>🏢 語言</h3>
+          <div class="skill-tags">
+            <span>中文</span>
+            <span>英文</span>
+            <span>客語</span>
+          </div>
+        </div>
+        <div class="skill-group glass-card">
+          <h3>🌱 軟實力</h3>
+          <div class="skill-tags">
+            <span>自主學習</span>
+            <span>跨域溝通</span>
+            <span>問題拆解</span>
+            <span>校外服務</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education" class="section">
+      <p class="section-title">Education</p>
+      <div class="timeline glass-card">
+        <article class="timeline-item">
+          <h4>中原大學 • 資訊管理學系</h4>
+          <div class="meta">2023 - 2026（預計）</div>
+          <p>專注於資料分析、系統規劃與智慧商務應用，參與校內專案與外部資管實作。</p>
+        </article>
+        <article class="timeline-item">
+          <h4>高中 • 科技商業班</h4>
+          <div class="meta">2020 - 2023</div>
+          <p>累積程式設計與專案展示經驗，並以科技應用為主題完成畢業專題。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="section">
+      <p class="section-title">Experience</p>
+      <div class="timeline glass-card">
+        <article class="timeline-item">
+          <h4>AI 專案開發 • 中原大學資管專題</h4>
+          <div class="meta">2025 年</div>
+          <ul>
+            <li>規劃 AI 資料流程，整合 1300 筆模擬交易資料並建置分析模型。</li>
+            <li>建立 SwiftUI 介面與資料綁定，實作 5 個動態互動頁面。</li>
+            <li>引入 Copilot 協作，將專案開發效率提升約 25%。</li>
+          </ul>
+        </article>
+        <article class="timeline-item">
+          <h4>校外服務志工 • 社區 AI 工作坊</h4>
+          <div class="meta">2024 年</div>
+          <ul>
+            <li>帶領 12 名同學設計教案，讓 60 位學生理解 AI 與資料分析概念。</li>
+            <li>建立工作坊教材與互動練習，吸引 95% 參與者給予正面回饋。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="awards" class="section">
+      <p class="section-title">Awards</p>
+      <div class="awards-grid">
+        <div class="card glass-card">
+          <div class="award-badge">🏆 校園 AI 創新競賽</div>
+          <h3>第二名</h3>
+          <p>以 FinTech 領域的智能投資建議系統專題，將模型準確率提升至 87%。</p>
+        </div>
+        <div class="card glass-card">
+          <div class="award-badge">🥈 全國程式設計挑戰</div>
+          <h3>優勝</h3>
+          <p>完成 8 場演算法挑戰，解題穩定於 75% 以上正確率。</p>
+        </div>
+        <div class="card glass-card">
+          <div class="award-badge">✨ 校內專題展示</div>
+          <h3>最佳協作獎</h3>
+          <p>與團隊共同完成專題視覺與技術整合，獲得指導老師高度肯定。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <p class="section-title">Projects</p>
+      <div class="projects-grid">
+        <div class="card glass-card">
+          <h3>Memorize 卡牌比對</h3>
+          <div class="meta">iOS / SwiftUI</div>
+          <p>設計記憶卡牌遊戲，實作翻牌、勝利判定與分數即時更新。</p>
+        </div>
+        <div class="card glass-card">
+          <h3>Landmark 地標介紹</h3>
+          <div class="meta">iOS / MVVM</div>
+          <p>建置景點列表與詳細頁面，串接本地資料並實現流暢瀏覽流程。</p>
+        </div>
+        <div class="card glass-card">
+          <h3>AI 商務分析概念稿</h3>
+          <div class="meta">FinTech / 概念設計</div>
+          <p>將資料洞察轉為決策介面，呈現市場走勢與推薦策略。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <p class="section-title">Contact</p>
+      <div class="contact-grid">
+        <a class="contact-button" href="mailto:example@mail.com">📧 Email</a>
+        <a class="contact-button" href="https://github.com/" target="_blank" rel="noreferrer">🐙 GitHub</a>
+        <a class="contact-button" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">💼 LinkedIn</a>
+        <a class="contact-button" href="https://www.instagram.com/" target="_blank" rel="noreferrer">📷 IG</a>
+      </div>
+      <p class="footer-note">這是一份示範履歷網站，內容可替換為真實資料後直接部署至 GitHub Pages。</p>
+    </section>
+  </div>
+</body>
+</html>
